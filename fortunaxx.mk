@@ -84,9 +84,10 @@ PRODUCT_PACKAGES += \
     charger_res_images
 
 # Doze
-PRODUCT_PACKAGES += \
-    SamsungDoze
+#PRODUCT_PACKAGES += \
+#    SamsungDoze
 
+# FlipFlap
 PRODUCT_PACKAGES += \
     FlipFlap
 
@@ -144,7 +145,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libmm-qcamera \
     camera.msm8916 \
-    Snap
+    SnapdragonCamera
 
 # OMX
 PRODUCT_PACKAGES += \
