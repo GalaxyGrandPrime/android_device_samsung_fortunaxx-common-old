@@ -18,3 +18,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.bluetooth.pbap=true \
     ro.qualcomm.bt.hci_transport=smd \
     persist.bt.enableAptXHD=true
+
+# Storage
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sys.sdcardfs=true
