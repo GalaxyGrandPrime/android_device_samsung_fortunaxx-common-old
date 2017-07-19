@@ -22,3 +22,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Storage
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.sys.sdcardfs=true
+	
+# Encrypt
+PRODUCT_PROPERTY_OVERRIDES += \
+    sys.keymaster.loaded=true
