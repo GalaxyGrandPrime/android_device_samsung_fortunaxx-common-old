@@ -461,7 +461,10 @@ on fs
 
 # fm_radio
     chmod 0777 /dev/radio0
-    chown system system /dev/radio0	
+    chown system system /dev/radio0
+
+on post-fs
+    start qseecomd
 
 # msm specific files that need to be created on /data
 on post-fs-data
