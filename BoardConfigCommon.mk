@@ -131,8 +131,6 @@ BOARD_HAVE_QCOM_FM                   := true
 # Enable HW based full disk encryption
 TARGET_HW_DISK_ENCRYPTION            := true
 TARGET_KEYMASTER_WAIT_FOR_QSEE       := true
-TARGET_HW_KEYMASTER_V03              := true
-TARGET_SWV8_DISK_ENCRYPTION          := true
 
 # Power HAL
 TARGET_POWERHAL_SET_INTERACTIVE_EXT  := $(LOCAL_PATH)/power/power_ext.c
