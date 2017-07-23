@@ -98,6 +98,7 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
 BOARD_HAVE_BLUETOOTH                        := true
 BOARD_HAVE_BLUETOOTH_QCOM                   := true
 BLUETOOTH_HCI_USE_MCT                       := true
+QCOM_BT_USE_BTNV                            := true
 
 # Custom RIL class
 BOARD_RIL_CLASS                      := ../../../device/samsung/fortunaxx-common/ril/
@@ -125,14 +126,18 @@ BOARD_CHARGER_DISABLE_INIT_BLANK     := true
 
 # Enable QCOM FM feature
 AUDIO_FEATURE_ENABLED_FM             := true
+BOARD_HAVE_QCOM_FM                   := true
 
 # Enable HW based full disk encryption
 TARGET_HW_DISK_ENCRYPTION            := true
 TARGET_KEYMASTER_WAIT_FOR_QSEE       := true
+TARGET_HW_KEYMASTER_V03              := true
+TARGET_SWV8_DISK_ENCRYPTION          := true
 
 # Power HAL
 TARGET_POWERHAL_SET_INTERACTIVE_EXT  := $(LOCAL_PATH)/power/power_ext.c
 TARGET_POWERHAL_VARIANT              := qcom
+WITH_QC_PERF                         := true
 
 # Vold
 TARGET_USE_CUSTOM_LUN_FILE_PATH      := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
@@ -159,22 +164,22 @@ TARGET_PROVIDES_LIBLIGHT              := true
 # Media
 TARGET_QCOM_MEDIA_VARIANT             := caf
 
-BOARD_HAVE_QCOM_FM                    := true
-
 # Display
-TARGET_CONTINUOUS_SPLASH_ENABLED      := true
-TARGET_USES_OVERLAY                   := true
-TARGET_HARDWARE_3D                    := false
-TARGET_HAVE_HDMI_OUT                  := false
-USE_OPENGL_RENDERER                   := true
-NUM_FRAMEBUFFER_SURFACE_BUFFERS       := 3
 MAX_EGL_CACHE_KEY_SIZE                := 12*1024
 MAX_EGL_CACHE_SIZE                    := 2048*1024
+NUM_FRAMEBUFFER_SURFACE_BUFFERS       := 3
 OVERRIDE_RS_DRIVER                    := libRSDriver.so
+TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
+MAX_VIRTUAL_DISPLAY_DIMENSION         := 2048
+TARGET_CONTINUOUS_SPLASH_ENABLED      := true
+TARGET_HAVE_NEW_GRALLOC               := true
 
 # Boot animation
 TARGET_SCREEN_WIDTH                  := 540
 TARGET_SCREEN_HEIGHT                 := 960
+
+# Snapdragon LLVM
+TARGET_USE_SDCLANG                   := true
 
 # Recovery
 TARGET_RECOVERY_FSTAB                := $(LOCAL_PATH)/rootdir/fstab.qcom
