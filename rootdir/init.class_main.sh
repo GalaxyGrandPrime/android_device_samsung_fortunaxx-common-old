@@ -26,76 +26,18 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-#
-# start ril-daemon only for targets on which radio is present
-#
-baseband=`getprop ro.baseband`
-sgltecsfb=`getprop persist.radio.sglte_csfb`
-datamode=`getprop persist.data.mode`
-netmgr=`getprop ro.use_data_netmgrd`
+multisim=`getprop persist.radio.multisim.config`
 
-case "$baseband" in
-    "apq")
-    setprop ro.radio.noril yes
-    stop ril-daemon
-esac
+function restart()
+{
+    for service in $@; do
+        stop $service
+        start $service
+    done
+}
 
-case "$baseband" in
-    "msm" | "csfb" | "svlte2a" | "mdm" | "mdm2" | "sglte" | "sglte2" | "dsda2" | "unknown" | "dsda3")
-    start qmuxd
-    start ipacm-diag
-    start ipacm
-    case "$baseband" in
-        "svlte2a" | "csfb")
-          start qmiproxy
-        ;;
-        "sglte" | "sglte2" )
-          if [ "x$sgltecsfb" != "xtrue" ]; then
-              start qmiproxy
-          else
-              setprop persist.radio.voice.modem.index 0
-          fi
-        ;;
-        "dsda2")
-          setprop persist.radio.multisim.config dsda
-    esac
-
-    multisim=`getprop persist.radio.multisim.config`
-
-    if [ "$multisim" = "dsds" ] || [ "$multisim" = "dsda" ]; then
-        start ril-daemon2
-    elif [ "$multisim" = "tsts" ]; then
-        start ril-daemon2
-        start ril-daemon3
-    fi
-
-    case "$datamode" in
-        "tethered")
-            start qti
-            start port-bridge
-            ;;
-        "concurrent")
-            start qti
-            if [ "$netmgr" = "true" ]; then
-                start netmgrd
-            fi
-            ;;
-        *)
-            if [ "$netmgr" = "true" ]; then
-                start netmgrd
-            fi
-            ;;
-    esac
-esac
-
-#
-# Allow persistent faking of bms
-# User needs to set fake bms charge in persist.bms.fake_batt_capacity
-#
-fake_batt_capacity=`getprop persist.bms.fake_batt_capacity`
-case "$fake_batt_capacity" in
-    "") ;; #Do nothing here
-    * )
-    echo "$fake_batt_capacity" > /sys/class/power_supply/battery/capacity
-    ;;
-esac
+if [ "$multisim" = "dsds" ]; then
+    restart ril-daemon ril-daemon1
+elif [ "$multisim" = "dsda" ]; then
+    restart ril-daemon ril-daemon1
+fi
