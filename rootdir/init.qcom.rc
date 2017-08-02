@@ -461,7 +461,7 @@ on fs
 
 # fm_radio
     chmod 0777 /dev/radio0
-    chown system system /dev/radio0	
+    chown system system /dev/radio0
 
 # msm specific files that need to be created on /data
 on post-fs-data
@@ -666,8 +666,20 @@ on property:init.svc.wpa_supplicant=stopped
 
 on property:bluetooth.isEnabled=true
     write /sys/class/bluetooth/hci0/idle_timeout 7000
+    
+service config_bluetooth /system/bin/sh /system/etc/init.qcom.bt.sh "onboot"
+    class core
+    user root
+    oneshot
+
+service qcom-c_main-sh /system/bin/sh /init.class_main.sh
+    class main
+    user root
+    oneshot
 
 on property:vold.decrypt=trigger_restart_framework
+    start qcom-c_main-sh
+    start config_bluetooth
     start wcnss-service
 
 on property:persist.env.fastdorm.enabled=true
@@ -858,5 +870,4 @@ on class_start:late_start
     trigger enable-low-power
 
 on property:init.svc.recovery=running
-    trigger enable-low-power	
-
+    trigger enable-low-power
