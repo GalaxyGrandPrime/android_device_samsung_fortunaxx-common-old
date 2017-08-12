@@ -34,7 +34,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadio.java b/hardware/q
           }//switch
        }//handleMessage
     };
-+   
++
 +   @Override
 +   public boolean onKeyDown(int keyCode, KeyEvent event) {
 +      AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -58,7 +58,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadio.java b/hardware/q
 diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java
 --- a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java	Mon Jun 20 17:28:46 2016
 +++ b/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java	Mon Jun 27 10:45:01 2016
-@@ -99,6 +99,31 @@
+@@ -99,6 +99,33 @@
  import android.bluetooth.BluetoothProfile;
  import android.bluetooth.BluetoothAdapter;
  import android.bluetooth.BluetoothDevice;
@@ -81,16 +81,18 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
 +    public void onChange(boolean selfChange) {
 +        super.onChange(selfChange);
 +        AudioManager mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
++		mAudioManager.requestAudioFocus(mAudioFocusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
 +        int currvol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-+        float vol = (float) currvol / 100;
++        float vol = (float) currvol / 80;
 +        mAudioManager.setParameters("FMRadioVol=" + vol);
++		mAudioManager.abandonAudioFocus(mAudioFocusListener);
 +        Log.d("FMService", "vol: " + String.format("%.10f", vol));
 +    }
 +}
  
  /**
   * Provides "background" FM Radio (that uses the hardware) capabilities,
-@@ -228,6 +253,7 @@
+@@ -228,6 +255,7 @@
     private Notification.Builder mRadioNotification;
     private Notification mNotificationInstance;
     private NotificationManager mNotificationManager;
@@ -98,7 +100,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
  
     public FMRadioService() {
     }
-@@ -276,6 +302,8 @@
+@@ -276,6 +304,8 @@
        String valueStr = audioManager.getParameters("isA2dpDeviceSupported");
        mA2dpDeviceSupportInHal = valueStr.contains("=true");
        Log.d(LOGTAG, " is A2DP device Supported In HAL"+mA2dpDeviceSupportInHal);
@@ -107,7 +109,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
  
        getA2dpStatusAtStart();
     }
-@@ -346,6 +374,7 @@
+@@ -346,6 +376,7 @@
  
        TelephonyManager tmgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
        tmgr.listen(mPhoneStateListener, 0);
@@ -115,14 +117,14 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
  
        Log.d(LOGTAG, "onDestroy: unbindFromService completed");
  
-@@ -1039,8 +1068,16 @@
+@@ -1039,8 +1070,16 @@
          }
     };
  
 +   float GetMusicStreamVol() {
 +       AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 +       int currvol = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-+       float vol = (float) currvol / 100;
++       float vol = (float) currvol / 80;
 +       return vol;
 +   }
 +
@@ -132,7 +134,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
         if(true == mAppShutdown) { // not to send intent to AudioManager in Shutdown
             return;
         }
-@@ -1081,9 +1118,44 @@
+@@ -1081,9 +1120,44 @@
             mSpeakerPhoneOn = false;
         // In FM stop, the audio route is set to default audio device
         } else if (mSpeakerPhoneOn) {
@@ -177,21 +179,21 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
         }
  
         mPlaybackInProgress = true;
-@@ -1098,6 +1170,13 @@
+@@ -1098,6 +1172,13 @@
  
     private void stopFM() {
         Log.d(LOGTAG, "In stopFM");
 +       Log.d(LOGTAG,"FM_PATCH:stopFM()");
-+       Log.d(LOGTAG,"FM_PATCH:stopFM() fm_radio_mute=1");
-+       mAudioManager.setParameters("fm_radio_mute=1");
-+       Log.d(LOGTAG,"FM_PATCH:stopFM() fm_radio_mute=1 OK");
++       //Log.d(LOGTAG,"FM_PATCH:stopFM() fm_radio_mute=1");
++       //mAudioManager.setParameters("fm_radio_mute=1");
++       //Log.d(LOGTAG,"FM_PATCH:stopFM() fm_radio_mute=1 OK");
 +       Log.d(LOGTAG,"FM_PATCH:stopFM() fm_radio_volume=off");
 +       mAudioManager.setParameters("fm_radio_volume=off");
 +       Log.d(LOGTAG,"FM_PATCH:stopFM() fm_radio_volume=off OK");
         configureAudioDataPath(false);
         mPlaybackInProgress = false;
         try {
-@@ -1298,6 +1377,12 @@
+@@ -1298,6 +1379,12 @@
         if (mRecorder == null)
             return;
         try {
@@ -204,7 +206,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
               mRecorder.stop();
               mRecorder.reset();
               mRecorder.release();
-@@ -1564,6 +1649,11 @@
+@@ -1564,6 +1651,11 @@
        public void run() {
           Log.v(LOGTAG, "Disabling Speaker");
           AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NONE);
@@ -216,7 +218,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
        }
     };
  
-@@ -2254,13 +2344,16 @@
+@@ -2254,13 +2346,16 @@
     }
  
     private void resetAudioRoute() {
@@ -226,7 +228,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
                 Log.d(LOGTAG, "A2DP connected, de-select BT");
 -               AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NO_BT_A2DP);
 +               Log.d(LOGTAG, "FM_PATCH:resetAudioRoute() FORCE_NO_BT_A2DP");
-+               AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NO_BT_A2DP);    
++               AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NO_BT_A2DP);
             } else {
                 Log.d(LOGTAG, "A2DP is not connected, force none");
                 AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NONE);
@@ -234,7 +236,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
             }
         }
     }
-@@ -2308,6 +2401,7 @@
+@@ -2308,6 +2403,7 @@
     * Reset (OFF) FM Operations: This resets all the current FM operations             .
     */
     private void fmOperationsReset() {
@@ -242,15 +244,15 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
        if (isFmRecordingOn())
        {
            stopRecording();
-@@ -2330,6 +2424,26 @@
+@@ -2330,6 +2426,26 @@
        if ( mSpeakerPhoneOn) {
            mSpeakerPhoneOn = false;
            AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NONE);
 +          mAudioManager.setSpeakerphoneOn(false);
 +          mAudioManager.setParameters("fm_radio_volume=on");
 +          mAudioManager.setParameters("FMRadioVol=" + GetMusicStreamVol());
-+          
-+          
++
++
 +        Log.d(LOGTAG,"FM_PATCH:fmOperationsReset() MODE_IN_CALL");
 +        mAudioManager.setMode(AudioManager.MODE_IN_CALL);
 +        Log.d(LOGTAG,"FM_PATCH:fmOperationsReset() MODE_IN_CALL OK");
@@ -269,7 +271,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
        }
     }
  
-@@ -2443,6 +2557,7 @@
+@@ -2443,6 +2559,7 @@
     }
  
     public void enableSpeaker(boolean speakerOn) {
@@ -277,7 +279,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
         Log.d(LOGTAG, "speakerOn: " + speakerOn);
  
         if (isCallActive())
-@@ -2451,16 +2566,42 @@
+@@ -2451,16 +2568,42 @@
         mSpeakerPhoneOn = speakerOn;
  
         if (speakerOn == false) {
@@ -320,7 +322,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
         }
  
         Log.d(LOGTAG, "speakerOn completed:" + speakerOn);
-@@ -2514,6 +2655,7 @@
+@@ -2514,6 +2657,7 @@
     *  @return true if routeAudio call succeeded, false if the route call failed.
     */
     public boolean routeAudio(int audioDevice) {
@@ -328,7 +330,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
        boolean bStatus=false;
        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
  
-@@ -2522,14 +2664,17 @@
+@@ -2522,14 +2666,17 @@
        switch (audioDevice) {
  
          case RADIO_AUDIO_DEVICE_WIRED_HEADSET:
@@ -346,7 +348,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
              mAudioDevice = "headset";
              break;
        }
-@@ -2550,6 +2695,7 @@
+@@ -2550,6 +2697,7 @@
     * @return true if set mute mode api was invoked successfully, false if the api failed.
     */
     public boolean mute() {
@@ -354,7 +356,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
        boolean bCommandSent=true;
        if(isMuted())
            return bCommandSent;
-@@ -2560,7 +2706,9 @@
+@@ -2560,7 +2708,9 @@
        if (audioManager != null)
        {
           mMuted = true;
@@ -365,7 +367,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
           if (mAudioTrack != null)
               mAudioTrack.setVolume(0.0f);
        }
-@@ -2572,6 +2720,7 @@
+@@ -2572,6 +2722,7 @@
     * @return true if set mute mode api was invoked successfully, false if the api failed.
     */
     public boolean unMute() {
@@ -373,7 +375,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
        boolean bCommandSent=true;
        if(!isMuted())
            return bCommandSent;
-@@ -2582,7 +2731,9 @@
+@@ -2582,7 +2733,9 @@
        if (audioManager != null)
        {
           mMuted = false;

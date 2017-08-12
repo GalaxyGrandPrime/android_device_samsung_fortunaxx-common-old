@@ -82,8 +82,7 @@ PRODUCT_COPY_FILES += \
 
 # Use cm images if available, aosp ones otherwise
 PRODUCT_PACKAGES += \
-    charger_res_images \
-    cm_charger_res_images
+    charger_res_images
 
 # Doze
 #PRODUCT_PACKAGES += \
@@ -247,7 +246,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Note that the only such settings should be the ones that are too low-level to
 # be reachable from resources or other mechanisms.
 PRODUCT_PROPERTY_OVERRIDES += \
-    cm.updater.uri=http://updates.cm-ota.pp.ua
+    cm.updater.uri=http://ota.androiddev.pp.ua
 
 # We have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
