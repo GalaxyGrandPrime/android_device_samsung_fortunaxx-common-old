@@ -34,7 +34,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadio.java b/hardware/q
           }//switch
        }//handleMessage
     };
-+   
++
 +   @Override
 +   public boolean onKeyDown(int keyCode, KeyEvent event) {
 +      AudioManager audio = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -228,7 +228,7 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
                 Log.d(LOGTAG, "A2DP connected, de-select BT");
 -               AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NO_BT_A2DP);
 +               Log.d(LOGTAG, "FM_PATCH:resetAudioRoute() FORCE_NO_BT_A2DP");
-+               AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NO_BT_A2DP);    
++               AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NO_BT_A2DP);
             } else {
                 Log.d(LOGTAG, "A2DP is not connected, force none");
                 AudioSystem.setForceUse(AudioSystem.FOR_MEDIA, AudioSystem.FORCE_NONE);
@@ -251,8 +251,8 @@ diff -ur a/hardware/qcom/fm/fmapp2/src/com/caf/fmradio/FMRadioService.java b/har
 +          mAudioManager.setSpeakerphoneOn(false);
 +          mAudioManager.setParameters("fm_radio_volume=on");
 +          mAudioManager.setParameters("FMRadioVol=" + GetMusicStreamVol());
-+          
-+          
++
++
 +        Log.d(LOGTAG,"FM_PATCH:fmOperationsReset() MODE_IN_CALL");
 +        mAudioManager.setMode(AudioManager.MODE_IN_CALL);
 +        Log.d(LOGTAG,"FM_PATCH:fmOperationsReset() MODE_IN_CALL OK");
