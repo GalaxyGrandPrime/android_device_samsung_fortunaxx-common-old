@@ -159,7 +159,6 @@ on property:sys.usb.config=rndis
     write /sys/class/android_usb/android0/idProduct 6863
     write /sys/class/android_usb/android0/functions rndis
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     setprop sys.usb.state ${sys.usb.config}
 
 on property:sys.usb.config=rndis,adb
@@ -167,7 +166,6 @@ on property:sys.usb.config=rndis,adb
     write /sys/class/android_usb/android0/idVendor 04E8
     write /sys/class/android_usb/android0/idProduct 6864
     write /sys/class/android_usb/android0/functions rndis,adb
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     write /sys/class/android_usb/android0/enable 1
     start adbd
     setprop sys.usb.state ${sys.usb.config}
@@ -870,7 +868,6 @@ on property:sys.usb.config=rndis,none
     write /sys/class/android_usb/android0/idProduct F00E
     write /sys/class/android_usb/android0/functions rndis
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     setprop sys.usb.state rndis
 
 #on property:sys.usb.config=rndis,adb
@@ -884,7 +881,6 @@ on property:sys.usb.config=rndis,none,adb
     write /sys/class/android_usb/android0/idProduct 9024
     write /sys/class/android_usb/android0/functions rndis,adb
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     start adbd
     setprop sys.usb.state rndis,adb
 
@@ -895,7 +891,6 @@ on property:sys.usb.config=rndis,diag
     write /sys/class/android_usb/android0/f_diag/clients diag
     write /sys/class/android_usb/android0/functions rndis,diag
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     setprop sys.usb.state rndis
 
 on property:sys.usb.config=rndis,diag,adb
@@ -906,7 +901,6 @@ on property:sys.usb.config=rndis,diag,adb
     write /sys/class/android_usb/android0/f_diag/clients diag
     write /sys/class/android_usb/android0/functions rndis,diag,adb
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     start adbd
     setprop sys.usb.state rndis,adb
 
@@ -917,7 +911,6 @@ on property:sys.usb.config=rndis,serial_smd
     write /sys/class/android_usb/android0/f_serial/transports smd
     write /sys/class/android_usb/android0/functions rndis,serial
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     setprop sys.usb.state rndis
 
 on property:sys.usb.config=rndis,serial_smd,adb
@@ -928,7 +921,6 @@ on property:sys.usb.config=rndis,serial_smd,adb
     write /sys/class/android_usb/android0/f_serial/transports smd
     write /sys/class/android_usb/android0/functions rndis,serial,adb
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     start adbd
     setprop sys.usb.state rndis,adb
 
@@ -940,7 +932,6 @@ on property:sys.usb.config=rndis,serial_smd,diag
     write /sys/class/android_usb/android0/f_serial/transports smd
     write /sys/class/android_usb/android0/functions rndis,serial,diag
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     setprop sys.usb.state rndis
 
 on property:sys.usb.config=rndis,serial_smd,diag,adb
@@ -952,7 +943,6 @@ on property:sys.usb.config=rndis,serial_smd,diag,adb
     write /sys/class/android_usb/android0/f_serial/transports smd
     write /sys/class/android_usb/android0/functions rndis,serial,diag,adb
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     start adbd
     setprop sys.usb.state rndis,adb
 
@@ -973,7 +963,6 @@ on property:sys.usb.config=rndis,diag,diag_mdm,adb
     write /sys/class/android_usb/android0/f_diag/clients diag,diag_mdm
     write /sys/class/android_usb/android0/functions rndis,diag,adb
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     start adbd
     setprop sys.usb.state rndis,adb
 
@@ -984,7 +973,6 @@ on property:sys.usb.config=rndis,diag,diag_mdm,diag_qsc
     write /sys/class/android_usb/android0/f_diag/clients diag,diag_mdm,diag_qsc
     write /sys/class/android_usb/android0/functions rndis,diag
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     setprop sys.usb.state rndis
 
 on property:sys.usb.config=rndis,diag,diag_mdm,diag_qsc,adb
@@ -995,7 +983,6 @@ on property:sys.usb.config=rndis,diag,diag_mdm,diag_qsc,adb
     write /sys/class/android_usb/android0/f_diag/clients diag,diag_mdm,diag_qsc
     write /sys/class/android_usb/android0/functions rndis,diag,adb
     write /sys/class/android_usb/android0/enable 1
-    write /sys/class/android_usb/android0/iSerial R51H70EG51L
     start adbd
     setprop sys.usb.state rndis,adb
 
