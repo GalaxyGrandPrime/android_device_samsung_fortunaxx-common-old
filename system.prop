@@ -77,6 +77,7 @@ persist.sys.wfd.virtual=0
 
 dalvik.vm.dex2oat-flags=--no-watch-dog
 ro.sys.fw.dex2oat_thread_count=4
+ro.sys.fw.bg_apps_limit=10
 
 # Samsung OEM
 ro.multisim.set_audio_params=true
