@@ -1,4 +1,4 @@
-# Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
+.# Copyright (c) 2011-2012, The Linux Foundation. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -1363,20 +1363,10 @@ on property:sys.usb.config=rndis,diag,qdss,adb
 #    start adbd
 #    setprop sys.usb.state ${sys.usb.config}
 
-on property:sys.usb.config=charged
+on property:sys.usb.config=charging
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 05C6
     write /sys/class/android_usb/android0/idProduct F006
     write /sys/class/android_usb/android0/functions charging
     write /sys/class/android_usb/android0/enable 1
-    setprop sys.usb.state ${sys.usb.config}
-
-on property:sys.usb.config=charged,adb
-    stop adbd
-    write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor 05C6
-    write /sys/class/android_usb/android0/idProduct F006
-    write /sys/class/android_usb/android0/functions adb
-    write /sys/class/android_usb/android0/enable 1
-	start adbd
     setprop sys.usb.state ${sys.usb.config}
