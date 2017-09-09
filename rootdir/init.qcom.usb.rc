@@ -46,19 +46,10 @@ service qcom-usb-sh /system/bin/sh /init.qcom.usb.sh
     oneshot
 
 on property:sys.usb.config=diag,serial_smd,rmnet_bam
-    setprop sys.usb.config none
+    setprop sys.usb.config charging
 
 on property:sys.usb.config=diag,serial_smd,rmnet_bam,adb
-    setprop sys.usb.config adb
-
-on property:sys.usb.config=adb
-    write /sys/class/android_usb/android0/enable 0
-    write /sys/class/android_usb/android0/idVendor 04E8
-    write /sys/class/android_usb/android0/idProduct 6860
-    write /sys/class/android_usb/android0/functions adb
-    write /sys/class/android_usb/android0/enable 1
-    start adbd
-    setprop sys.usb.state ${sys.usb.config}	
+    setprop sys.usb.config charging,adb
 
 on property:sys.usb.config=rndis
     write /sys/class/android_usb/android0/enable 0
@@ -111,4 +102,21 @@ on property:sys.usb.config=ptp,adb
     write /sys/class/android_usb/android0/functions ptp,adb
     write /sys/class/android_usb/android0/enable 1
     start adbd
+    setprop sys.usb.state ${sys.usb.config}
+	
+on property:sys.usb.config=charging
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 04E8
+    write /sys/class/android_usb/android0/idProduct 6866
+    write /sys/class/android_usb/android0/functions charging
+	write /sys/class/android_usb/android0/enable 1
+    setprop sys.usb.state ${sys.usb.config}
+	
+on property:sys.usb.config=charging,adb
+    write /sys/class/android_usb/android0/enable 0
+    write /sys/class/android_usb/android0/idVendor 04E8
+    write /sys/class/android_usb/android0/idProduct 6866
+    write /sys/class/android_usb/android0/functions charging
+	write /sys/class/android_usb/android0/enable 1
+	start adbd
     setprop sys.usb.state ${sys.usb.config}
