@@ -255,4 +255,7 @@ $(call inherit-product, device/samsung/qcom-common/qcom-common.mk)
 # Dalvik heap config
 $(call inherit-product, frameworks/native/build/phone-hdpi-512-dalvik-heap.mk)
 
+# Texture config.
+ $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
+
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
