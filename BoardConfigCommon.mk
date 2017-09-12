@@ -116,7 +116,7 @@ TARGET_QCOM_AUDIO_VARIANT            := caf
 TARGET_USES_QCOM_MM_AUDIO            := true
 
 # Charger
-BOARD_HAL_STATIC_LIBRARIES           := libhealthd.cm
+#BOARD_HAL_STATIC_LIBRARIES           := libhealthd.cm
 BOARD_CHARGER_ENABLE_SUSPEND         := true
 BOARD_CHARGING_MODE_BOOTING_LPM      := /sys/class/power_supply/battery/batt_lp_charging
 BACKLIGHT_PATH                       := "/sys/class/leds/lcd-backlight/brightness"
