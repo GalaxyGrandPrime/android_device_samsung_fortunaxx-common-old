@@ -41,7 +41,7 @@ case "$usb_config" in
     "" | "adb") #USB persist config not set, select default configuration
         case "$target" in
             "msm8916")
-                setprop persist.sys.usb.config charging
+                setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
             ;;      
         esac    
     ;;
